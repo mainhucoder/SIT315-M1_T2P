@@ -1,0 +1,47 @@
+int pirSensorPin = 5;
+int Led = 6; 
+int BUTTON_PIN = 3;
+
+int motionState = LOW;
+bool PressButton = false;
+
+void setup() {
+ 
+ Serial.begin(9600);
+ 
+ pinMode(pirSensorPin, INPUT);
+ pinMode(Led,OUTPUT);
+ attachInterrupt(digitalPinToInterrupt(BUTTON_PIN),Interruptevent, CHANGE);
+
+ 
+}
+
+
+void Interruptevent() {
+ if (digitalRead(BUTTON_PIN) == LOW) { 
+    digitalWrite(Led, HIGH); 
+  Serial.println("Interrupt Occured");
+ } else {
+    digitalWrite(Led, LOW); 
+   Serial.println("No Interrupt Occured");
+  }
+}
+
+void loop() {
+ 
+ Interruptevent();
+  if (!PressButton) {
+    motionState = digitalRead(pirSensorPin);
+    Serial.println("Motion Sensor: ");
+
+ motionState = digitalRead(pirSensorPin);
+ if (motionState == HIGH) {
+ Serial.println("Motion detected!");
+ digitalWrite(Led,HIGH);
+ } else {
+ Serial.println("No motion");
+ digitalWrite(Led,LOW);
+ }
+ delay(500);
+
+  }}
